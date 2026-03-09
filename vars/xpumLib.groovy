@@ -92,8 +92,8 @@ def runLinuxBuildCell(Map args) {
 
                     if (uploadArtifacts) {
                         stage("Linux ${distroName} ${buildType} - Upload") {
-                            String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Linux/${distroName}/${buildType}"
-                            art.uploadScratch(artifactoryScratchCred, assetPath, packageDir)
+                            String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Linux"
+                            art.uploadScratch(artifactoryScratchCred, assetPath, distroName, scriptBt, packageDir)
                         }
                     }
 
@@ -166,8 +166,8 @@ def runWindowsBuildCell(Map args) {
 
                 if (uploadArtifacts) {
                     stage("Windows ${winTarget} ${buildType} - Upload") {
-                        String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Windows/${winTarget}/${buildType}"
-                        art.uploadScratch(artifactoryScratchCred, assetPath, packageDir)
+                        String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Windows"
+                        art.uploadScratch(artifactoryScratchCred, assetPath, winTarget, scriptBt, packageDir)
                     }
                 }
 
