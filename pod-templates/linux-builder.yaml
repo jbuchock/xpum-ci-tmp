@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: default
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+  securityContext:
+    runAsUser: 0
+    fsGroup: 0
+  containers:
+    - name: jnlp
+      image: 'amr-registry.caas.intel.com/oneapi-ci-hybrid-cloud/jenkins-inbound-agent:3256.v88a_f6e922152-jdk17'
+      workingDir: /workspace
+      tty: true
+      resources:
+        requests:
+          memory: "2Gi"
+          cpu: "500m"
+        limits:
+          memory: "4Gi"
+          cpu: "1000m"
+    - name: xpum
+      image: 'dockerBuildImageName'
+      command:
+        - bash
+      imagePullPolicy: Always
+      tty: true
+      resources:
+        requests:
+          memory: "2Gi"
+          cpu: "1000m"
+        limits:
+          memory: "4Gi"
+          cpu: "2000m"
+      volumeMounts:
+      - name: workspace-volume
+        mountPath: /workspace
+  volumes:
+  - name: workspace-volume
+    emptyDir: {}
+  imagePullSecrets:
+    - name: amr-registry
+    - name: ger-registry
+    - name: ger-registry-pre

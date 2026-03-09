@@ -1,0 +1,7 @@
+# XPUM Build Requirements
+# Pin versions for reproducible builds
+
+meson>=1.0.0
+conan>=2.0.0,<3.0.0
+ninja>=1.11.0
+cmake>=3.20.0

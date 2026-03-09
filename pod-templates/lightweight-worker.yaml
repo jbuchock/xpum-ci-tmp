@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: default
+spec:
+  nodeSelector:
+    kubernetes.io/os: linux
+  securityContext:
+    runAsUser: 0
+    fsGroup: 0
+  containers:
+    - name: jnlp
+      image: 'amr-registry.caas.intel.com/oneapi-ci-hybrid-cloud/jenkins-inbound-agent:3256.v88a_f6e922152-jdk17'
+    - name: resolver
+      image: 'gar-registry.caas.intel.com/new-xpum/builder-conan:ubuntu'
+      command: ['cat']
+      tty: true
+  volumes:
+  - name: workspace-volume
+    emptyDir: {}
+  imagePullSecrets:
+    - name: amr-registry
+    - name: ger-registry
+    - name: ger-registry-pre

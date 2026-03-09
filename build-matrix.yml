@@ -1,0 +1,15 @@
+linux:
+  ubuntu24.04:
+    cloud: "gar-oneapi-ci-hyc-windows-cluster"
+    image: "gar-registry.caas.intel.com/new-xpum/builder-conan:ubuntu"
+    podTemplate: "pod-templates/linux-builder.yaml"
+    containerName: "xpum"
+  ubuntu25.10:
+    cloud: "gar-oneapi-ci-hyc-windows-cluster"
+    image: "<not available yet>"
+    podTemplate: "pod-templates/linux-builder.yaml"
+    containerName: "xpum"
+
+windows:
+  server2022:
+    agentLabel: "bld-win-xpum"
