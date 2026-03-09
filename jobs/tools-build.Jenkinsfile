@@ -8,7 +8,7 @@
 //   - Build matrix (build-matrix.yml) and pod templates reside in this CI repo.
 //     No product-repo checkout is needed to resolve config (Core Principle 5 delta).
 //   - Credentials come from the Jenkins credential store only (Core Principle 3).
-//     ARTIFACTORY_SCRATCH_CRED is a folder-scoped credential in xpum/10_tools/.
+//     ARTIFACTORY_CRED is a folder-scoped credential in xpum/10_tools/.
 //   - Signing is post-merge only; this job never signs artifacts (Core Principle 2).
 
 // ---------------------------------------------------------------------------
@@ -17,7 +17,7 @@
 
 def MATRIX_FILE              = 'build-matrix.yml'   // CI-repo-resident
 def PRODUCT_REPO_URL         = 'https://github.com/intel-innersource/libraries.compute.xpu-manager.xpum.git'
-def ARTIFACTORY_SCRATCH_CRED = 'artifactory-xpum-scratch'
+def ARTIFACTORY_CRED         = 'artifactory-xpum'
 def SCRATCH_REPO_PATH        = 'xpum-scratch'
 
 // ---------------------------------------------------------------------------
@@ -143,7 +143,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
                         scratchRepoPath: SCRATCH_REPO_PATH,
-                        artifactoryScratchCred: ARTIFACTORY_SCRATCH_CRED
+                        artifactoryCred: ARTIFACTORY_CRED
                     )
                 }
             }
@@ -161,7 +161,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
                         scratchRepoPath: SCRATCH_REPO_PATH,
-                        artifactoryScratchCred: ARTIFACTORY_SCRATCH_CRED
+                        artifactoryCred: ARTIFACTORY_CRED
                     )
                 }
             }

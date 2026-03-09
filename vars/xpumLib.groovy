@@ -47,8 +47,8 @@ def runLinuxBuildCell(Map args) {
     String matrixFile = (args.matrixFile ?: 'build-matrix.yml') as String
     String productRepoUrl = args.productRepoUrl as String
     String gitRef = args.gitRef as String
-    String scratchRepoPath = (args.scratchRepoPath ?: 'xpum-scratch') as String
-    String artifactoryScratchCred = args.artifactoryScratchCred as String
+    String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
+    String artifactoryCred = args.artifactoryCred as String
     boolean uploadArtifacts = (args.uploadArtifacts ?: false) as boolean
 
     def cfg = matrix?.linux?.get(distroName)
@@ -92,8 +92,8 @@ def runLinuxBuildCell(Map args) {
 
                     if (uploadArtifacts) {
                         stage("Linux ${distroName} ${buildType} - Upload") {
-                            String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Linux"
-                            art.uploadScratch(artifactoryScratchCred, assetPath, distroName, scriptBt, packageDir)
+                            String assetPath = "${artifactoryRepo}/test/jbuchock/${env.BUILD_NUMBER}/Linux"
+                            art.uploadScratch(artifactoryCred, assetPath, distroName, scriptBt, packageDir)
                         }
                     }
 
@@ -120,8 +120,8 @@ def runWindowsBuildCell(Map args) {
     String matrixFile = (args.matrixFile ?: 'build-matrix.yml') as String
     String productRepoUrl = args.productRepoUrl as String
     String gitRef = args.gitRef as String
-    String scratchRepoPath = (args.scratchRepoPath ?: 'xpum-scratch') as String
-    String artifactoryScratchCred = args.artifactoryScratchCred as String
+    String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
+    String artifactoryCred = args.artifactoryCred as String
     boolean uploadArtifacts = (args.uploadArtifacts ?: false) as boolean
 
     def cfg = matrix?.windows?.get(winTarget)
@@ -166,8 +166,8 @@ def runWindowsBuildCell(Map args) {
 
                 if (uploadArtifacts) {
                     stage("Windows ${winTarget} ${buildType} - Upload") {
-                        String assetPath = "${scratchRepoPath}/${gitRef}/${env.BUILD_NUMBER}/Windows"
-                        art.uploadScratch(artifactoryScratchCred, assetPath, winTarget, scriptBt, packageDir)
+                        String assetPath = "${artifactoryRepo}/${gitRef}/${env.BUILD_NUMBER}/Windows"
+                        art.uploadScratch(artifactoryCred, assetPath, winTarget, scriptBt, packageDir)
                     }
                 }
 
