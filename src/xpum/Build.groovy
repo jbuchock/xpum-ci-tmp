@@ -30,7 +30,7 @@ class Build implements Serializable {
         steps.checkout([
             $class:            'GitSCM',
             branches:          [[name: gitRef]],
-            userRemoteConfigs: [[url: repoUrl, credentialsId: 'github-app-xpum']],
+            userRemoteConfigs: [[url: repoUrl, credentialsId: 'git']],
             extensions:        [
                 [$class: 'CloneOption',        shallow: false, noTags: false, depth: 0],
                 [$class: 'CleanBeforeCheckout']
