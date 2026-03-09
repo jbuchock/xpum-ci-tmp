@@ -10,7 +10,7 @@ package xpum
  * Instantiate with the pipeline steps context:
  *
  *   def art = new xpum.Artifactory(this)
- *   art.uploadScratch(credentialsId, assetPath, sourceDir)
+ *   art.pushToArtifactory(credentialsId, assetPath, sourceDir)
  */
 class Artifactory implements Serializable {
 
@@ -37,7 +37,7 @@ class Artifactory implements Serializable {
      *                       e.g. 'Release' or 'Debug'
      * @param sourceDir      Local workspace directory containing the package files
      */
-    void uploadScratch(String credentialsId, String assetPath, String assetName,
+    void pushToArtifactory(String credentialsId, String assetPath, String assetName,
                        String assetVersion, String sourceDir) {
         steps.withCredentials([steps.usernamePassword(
             credentialsId: credentialsId,

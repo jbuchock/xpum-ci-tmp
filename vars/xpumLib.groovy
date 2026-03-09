@@ -93,7 +93,7 @@ def runLinuxBuildCell(Map args) {
                     if (uploadArtifacts) {
                         stage("Linux ${distroName} ${buildType} - Upload") {
                             String assetPath = "${artifactoryRepo}/test/jbuchock/${env.BUILD_NUMBER}/Linux"
-                            art.uploadScratch(artifactoryCred, assetPath, distroName, scriptBt, packageDir)
+                            art.pushToArtifactory(artifactoryCred, assetPath, distroName, scriptBt, packageDir)
                         }
                     }
 
@@ -167,7 +167,7 @@ def runWindowsBuildCell(Map args) {
                 if (uploadArtifacts) {
                     stage("Windows ${winTarget} ${buildType} - Upload") {
                         String assetPath = "${artifactoryRepo}/${gitRef}/${env.BUILD_NUMBER}/Windows"
-                        art.uploadScratch(artifactoryCred, assetPath, winTarget, scriptBt, packageDir)
+                        art.pushToArtifactory(artifactoryCred, assetPath, winTarget, scriptBt, packageDir)
                     }
                 }
 
