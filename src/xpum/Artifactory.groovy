@@ -41,8 +41,8 @@ class Artifactory implements Serializable {
                        String assetVersion, String sourceDir) {
         steps.withCredentials([steps.usernamePassword(
             credentialsId: credentialsId,
-            usernameVariable: 'ART_USER',
-            passwordVariable: 'ART_PASSWORD'
+            usernameVariable: 'ARTIFACTORY_USER',
+            passwordVariable: 'ARTIFACTORY_PASSWORD'
         )]) {
             if (steps.isUnix()) {
                 steps.sh("""
