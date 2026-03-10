@@ -63,6 +63,11 @@ Target platform:
             defaultValue: false,
             description:  'Upload packaged artifacts to the Artifactory scratch path (xpum-scratch/)'
         )
+        booleanParam(
+            name:         'ARCHIVE_ARTIFACTS',
+            defaultValue: false,
+            description:  'Archive packaged artifacts and logs in Jenkins.'
+        )
     ])
 ])
 
@@ -142,6 +147,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
+                        archiveArtifacts: params.ARCHIVE_ARTIFACTS as boolean,
                         artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
                     )
@@ -160,6 +166,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
+                        archiveArtifacts: params.ARCHIVE_ARTIFACTS as boolean,
                         artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
                     )

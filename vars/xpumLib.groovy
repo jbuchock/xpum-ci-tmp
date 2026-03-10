@@ -62,6 +62,7 @@ def runLinuxBuildCell(Map args) {
     String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
     String artifactoryCred = args.artifactoryCred as String
     boolean uploadArtifacts = (args.uploadArtifacts ?: false) as boolean
+    boolean archiveArtifacts = (args.archiveArtifacts ?: false) as boolean
 
     def cfg = matrix?.linux?.get(distroName)
     if (!cfg) {
@@ -111,12 +112,15 @@ def runLinuxBuildCell(Map args) {
 
                 } finally {
                     stage("Linux ${distroName} ${buildType} - Archive") {
-                        archiveArtifacts allowEmptyArchive: true, artifacts: [
-                            "${packageDir}/*.tar.gz",
-                            "${packageDir}/*.zip",
-                            '**/meson-logs/**',
-                            '**/*.log'
-                        ].join(',')
+                        if (archiveArtifacts) {
+                            archiveArtifacts allowEmptyArchive: true, artifacts: [
+                                "${packageDir}/*.tar.gz",
+                                "${packageDir}/*.zip",
+                                '**/meson-logs/**',
+                                '**/*.log'
+                            ].join(',')
+                        }
+
                         cleanWs()
                     }
                 }
