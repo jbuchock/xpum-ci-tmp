@@ -2,7 +2,7 @@
 // Keep orchestration thin in Jenkinsfiles while centralizing reusable logic.
 
 private String pickResolverLabel() {
-    List<String> candidates = ['k8s-lightweight', 'built-in']
+    List<String> candidates = ['k8s-lightweight', 'controller-node']
     for (String label : candidates) {
         if (nodesByLabel(label: label, offline: false)) {
             return label
