@@ -59,17 +59,6 @@ class ArtifactCollector:
                     Logger.log(f"Failed to copy {file_path}: {e}", "WARNING")
         return copied
 
-    def _find_workspace_root(self) -> Path:
-        """Find workspace root by searching for jenkins directory"""
-        current = self.source_dir.resolve()
-        for _ in range(10):
-            if (current / 'jenkins' / 'include').exists():
-                return current
-            if current.parent == current:
-                break
-            current = current.parent
-        return self.source_dir.parent.parent
-
     def _collect_windows_artifacts(self) -> bool:
         """Collect specific Windows artifacts (1.x compatible format)"""
         Logger.log("Collecting Windows artifacts...")
