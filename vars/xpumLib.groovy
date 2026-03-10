@@ -62,7 +62,7 @@ def runLinuxBuildCell(Map args) {
     String gitRef = args.gitRef as String
     String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
     String artifactoryCred = args.artifactoryCred as String
-    boolean uploadArtifacts = (args.uploadArtifacts ?: false) as boolean
+    boolean pushArtifacts = (args.pushArtifacts ?: false) as boolean
     boolean archiveArtifacts = (args.archiveArtifacts ?: false) as boolean
 
     def cfg = matrix?.linux?.get(distroName)
@@ -107,7 +107,7 @@ def runLinuxBuildCell(Map args) {
                         build.packageArtifacts('Linux', artifactDir, packageDir, commit, timestamp)
                     }
 
-                    if (uploadArtifacts) {
+                    if (pushArtifacts) {
                         stage("Linux ${distroName} ${buildType} - Upload") {
                             String assetPath = "${artifactoryRepo}/test/jbuchock/${env.BUILD_NUMBER}/Linux"
                             art.pushToArtifactory(artifactoryCred, assetPath, distroName, scriptBt, packageDir)
@@ -142,7 +142,7 @@ def runWindowsBuildCell(Map args) {
     String gitRef = args.gitRef as String
     String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
     String artifactoryCred = args.artifactoryCred as String
-    boolean uploadArtifacts = (args.uploadArtifacts ?: false) as boolean
+    boolean pushArtifacts = (args.pushArtifacts ?: false) as boolean
 
     def cfg = matrix?.windows?.get(winTarget)
     if (!cfg) {
@@ -187,7 +187,7 @@ def runWindowsBuildCell(Map args) {
                     build.packageArtifacts('Windows', artifactDir, packageDir, commit, timestamp)
                 }
 
-                if (uploadArtifacts) {
+                if (pushArtifacts) {
                     stage("Windows ${winTarget} ${buildType} - Upload") {
                         String assetPath = "${artifactoryRepo}/${gitRef}/${env.BUILD_NUMBER}/Windows"
                         art.pushToArtifactory(artifactoryCred, assetPath, winTarget, scriptBt, packageDir)

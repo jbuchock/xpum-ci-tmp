@@ -146,7 +146,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         matrixFile: MATRIX_FILE,
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
-                        uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
+                        pushArtifacts: params.UPLOAD_ARTIFACTS as boolean,
                         archiveArtifacts: params.ARCHIVE_ARTIFACTS as boolean,
                         artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
@@ -165,7 +165,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         matrixFile: MATRIX_FILE,
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
-                        uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
+                        pushArtifacts: params.UPLOAD_ARTIFACTS as boolean,
                         archiveArtifacts: params.ARCHIVE_ARTIFACTS as boolean,
                         artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
