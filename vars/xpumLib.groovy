@@ -63,7 +63,7 @@ def runLinuxBuildCell(Map args) {
     String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
     String artifactoryCred = args.artifactoryCred as String
     boolean pushArtifacts = (args.pushArtifacts ?: false) as boolean
-    boolean archiveArtifacts = (args.archiveArtifacts ?: false) as boolean
+    boolean keepArtifacts = (args.keepArtifacts ?: false) as boolean
 
     def cfg = matrix?.linux?.get(distroName)
     if (!cfg) {
@@ -116,7 +116,7 @@ def runLinuxBuildCell(Map args) {
 
                 } finally {
                     stage("Linux ${distroName} ${buildType} - Archive") {
-                        if (archiveArtifacts) {
+                        if (keepArtifacts) {
                             archiveArtifacts allowEmptyArchive: true, artifacts: [
                                 "${packageDir}/*.tar.gz",
                                 "${packageDir}/*.zip",
@@ -143,6 +143,7 @@ def runWindowsBuildCell(Map args) {
     String artifactoryRepo = (args.artifactoryRepo ?: 'gfx-xpu-manager') as String
     String artifactoryCred = args.artifactoryCred as String
     boolean pushArtifacts = (args.pushArtifacts ?: false) as boolean
+    boolean keepArtifacts = (args.keepArtifacts ?: false) as boolean
 
     def cfg = matrix?.windows?.get(winTarget)
     if (!cfg) {
@@ -196,13 +197,15 @@ def runWindowsBuildCell(Map args) {
 
             } finally {
                 stage("Windows ${winTarget} ${buildType} - Archive") {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: [
-                        "${packageDir}\\*.exe",
-                        "${packageDir}\\*.msi",
-                        "${packageDir}\\*.zip",
-                        '**\\meson-logs\\**',
-                        '**\\*.log'
-                    ].join(',')
+                    if (keepArtifacts) {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: [
+                            "${packageDir}\\*.exe",
+                            "${packageDir}\\*.msi",
+                            "${packageDir}\\*.zip",
+                            '**\\meson-logs\\**',
+                            '**\\*.log'
+                        ].join(',')
+                    }
                     cleanWs()
                 }
             }
