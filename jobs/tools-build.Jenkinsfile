@@ -62,7 +62,7 @@ Target platform:
             name:         'UPLOAD_ARTIFACTS',
             defaultValue: false,
             description:  'Upload packaged artifacts to the Artifactory scratch path (xpum-scratch/)'
-        )
+        ),
         booleanParam(
             name:         'ARCHIVE_ARTIFACTS',
             defaultValue: false,
