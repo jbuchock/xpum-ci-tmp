@@ -1,32 +1,44 @@
 // Shared pipeline entrypoints for XPUM CI jobs.
 // Keep orchestration thin in Jenkinsfiles while centralizing reusable logic.
 
+private String pickResolverLabel() {
+    List<String> candidates = ['k8s-lightweight', 'built-in']
+    for (String label : candidates) {
+        if (nodesByLabel(label: label, offline: false)) {
+            return label
+        }
+    }
+    error "No resolver agent available. Tried: ${candidates.join(', ')}"
+}
+
 def resolveBuildMatrix(Map args = [:]) {
     String matrixFile = (args.matrixFile ?: 'build-matrix.yml') as String
     String resolverLabel = (args.resolverLabel ?: 'k8s-lightweight') as String
 
     def matrix = null
 
-    node(resolverLabel) {
-        checkout scm
+    node(pickResolverLabel()) {
+        try {
+            checkout scm
 
-        if (!fileExists(matrixFile)) {
-            error "Build matrix not found: ${matrixFile}"
-        }
-
-        matrix = readYaml(file: matrixFile)
-
-        matrix?.linux?.each { String distroName, def cfg ->
-            if (!cfg?.podTemplate) {
-                error "linux.${distroName} in ${matrixFile} is missing 'podTemplate'"
+            if (!fileExists(matrixFile)) {
+                error "Build matrix not found: ${matrixFile}"
             }
-            if (!fileExists(cfg.podTemplate as String)) {
-                error "Pod template not found: ${cfg.podTemplate} (linux.${distroName})"
-            }
-            cfg.podYamlTemplate = readFile(cfg.podTemplate as String)
-        }
 
-        cleanWs()
+            matrix = readYaml(file: matrixFile)
+
+            matrix?.linux?.each { String distroName, def cfg ->
+                if (!cfg?.podTemplate) {
+                    error "linux.${distroName} in ${matrixFile} is missing 'podTemplate'"
+                }
+                if (!fileExists(cfg.podTemplate as String)) {
+                    error "Pod template not found: ${cfg.podTemplate} (linux.${distroName})"
+                }
+                cfg.podYamlTemplate = readFile(cfg.podTemplate as String)
+            }
+        } finally {
+            cleanWs()
+        }
     }
 
     if (!matrix) {
