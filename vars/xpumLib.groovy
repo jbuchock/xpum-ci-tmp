@@ -190,8 +190,8 @@ def runWindowsBuildCell(Map args) {
 
                 if (pushArtifacts) {
                     stage("Windows ${winTarget} ${buildType} - Upload") {
-                        String assetPath = "${artifactoryRepo}/test/jbuchock/${env.BUILD_NUMBER}/Linux"
-                        art.pushToArtifactory(artifactoryCred, assetPath, distroName, scriptBt, packageDir)
+                        String assetPath = "${artifactoryRepo}/test/jbuchock/${env.BUILD_NUMBER}/Windows"
+                        art.pushToArtifactory(artifactoryCred, assetPath, winTarget, scriptBt, packageDir)
                     }
                 }
 
