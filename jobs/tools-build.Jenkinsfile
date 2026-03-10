@@ -18,7 +18,7 @@
 def MATRIX_FILE              = 'build-matrix.yml'   // CI-repo-resident
 def PRODUCT_REPO_URL         = 'https://github.com/intel-innersource/libraries.compute.xpu-manager.xpum.git'
 def ARTIFACTORY_CRED         = 'artifactory-xpum'
-def SCRATCH_REPO_PATH        = 'xpum-scratch'
+def ARTIFACTORY_REPO        = 'gfx-xpu-manager'
 
 // ---------------------------------------------------------------------------
 // Job properties
@@ -142,7 +142,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
-                        scratchRepoPath: SCRATCH_REPO_PATH,
+                        artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
                     )
                 }
@@ -160,7 +160,7 @@ timeout(time: 90, unit: 'MINUTES') {
                         productRepoUrl: PRODUCT_REPO_URL,
                         gitRef: params.GIT_REF as String,
                         uploadArtifacts: params.UPLOAD_ARTIFACTS as boolean,
-                        scratchRepoPath: SCRATCH_REPO_PATH,
+                        artifactoryRepo: ARTIFACTORY_REPO,
                         artifactoryCred: ARTIFACTORY_CRED
                     )
                 }
