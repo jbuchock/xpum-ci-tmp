@@ -9,6 +9,7 @@ Provides common functionality for:
 - Path utilities
 """
 
+import io
 import sys
 import platform
 from pathlib import Path
@@ -17,10 +18,8 @@ from typing import Optional
 # Configure stdout encoding for Windows console compatibility on import
 if platform.system() == "Windows":
     if sys.stdout.encoding != 'utf-8':
-        try:
+        if isinstance(sys.stdout, io.TextIOWrapper):
             sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-        except Exception:
-            pass
 
 
 class Logger:

@@ -17,13 +17,15 @@ import sys
 import subprocess
 import platform
 import argparse
+import io
 from pathlib import Path
 from typing import List
 
 # Configure stdout encoding for Windows console compatibility
 if platform.system() == "Windows":
     if sys.stdout.encoding != 'utf-8':
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        if isinstance(sys.stdout, io.TextIOWrapper):
+            sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 
 class XPUMBuilder:
