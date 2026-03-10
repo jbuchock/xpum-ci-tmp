@@ -36,6 +36,7 @@ def resolveBuildMatrix(Map args = [:]) {
                 }
                 cfg.podYamlTemplate = readFile(cfg.podTemplate as String)
             }
+            steps.stash(name: 'ci-scripts', includes: 'scripts/**')
         } finally {
             cleanWs()
         }
@@ -87,6 +88,9 @@ def runLinuxBuildCell(Map args) {
                 try {
                     stage("Linux ${distroName} ${buildType} - Checkout") {
                         build.checkout(productRepoUrl, gitRef)
+                        dir('jenkins') {
+                            unstash 'ci-scripts'   // lands as jenkins/scripts/build_xpum.py
+                        }
                     }
 
                     stage("Linux ${distroName} ${buildType} - Build") {
@@ -163,6 +167,9 @@ def runWindowsBuildCell(Map args) {
                 stage("Windows ${winTarget} ${buildType} - Checkout") {
                     cleanWs()
                     build.checkout(productRepoUrl, gitRef)
+                    dir('jenkins') {
+                        unstash 'ci-scripts'   // lands as jenkins/scripts/build_xpum.py
+                    }
                 }
 
                 String commit = powershell(returnStdout: true, script: 'git rev-parse HEAD').trim()
